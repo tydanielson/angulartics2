@@ -3,14 +3,13 @@ import { Injectable } from '@angular/core';
 import { Angulartics2 } from '../../core/angulartics2';
 
 declare var _hsq: any;
-
 @Injectable()
 export class Angulartics2Hubspot {
 
   constructor(
     private angulartics2: Angulartics2
   ) {
-    if (typeof (_hsq) === 'undefined') {
+    if (typeof (_hsq) === undefined) {
       _hsq = [];
     }
 
@@ -22,15 +21,21 @@ export class Angulartics2Hubspot {
   }
 
   pageTrack(path: string, location: any) {
+    if (_hsq !== undefined) {
       _hsq.push(['setPath', path]);
-    _hsq.push(['trackPageView']);
+      _hsq.push(['trackPageView']);
+    }
   }
 
   eventTrack(action: string, properties: any) {
-    _hsq.push(['trackEvent', properties]);
+    if (_hsq !== undefined) {
+      _hsq.push(['trackEvent', properties]);
+    }
   }
 
   setUserProperties(properties: any) {
-    _hsq.push(['identify', properties]);
+    if (_hsq !== undefined) {
+      _hsq.push(['identify', properties]);
+    }
   }
 }
